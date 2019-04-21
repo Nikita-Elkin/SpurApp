@@ -36,11 +36,13 @@ public class main extends AppCompatActivity implements OnLocationUpdatedListener
 
     private static final int LOCATION_PERMISSION_ID = 1001;
     private TextView test;
+    private ArrayList<Location> path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        path=new ArrayList<>();
         test = findViewById(R.id.textView2);
         Button startLocation = (Button) findViewById(R.id.button);
         startLocation.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +97,7 @@ public class main extends AppCompatActivity implements OnLocationUpdatedListener
                     location.getLatitude(),
                     location.getLongitude());
            test.setText(text);
+           path.add(location);
         } else {
             test.setText("Null location");
         }
