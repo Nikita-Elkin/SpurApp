@@ -27,6 +27,7 @@ import java.util.List;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.OnReverseGeocodingListener;
 import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesProvider;
 
 public class main extends AppCompatActivity implements OnLocationUpdatedListener {
@@ -83,7 +84,7 @@ public class main extends AppCompatActivity implements OnLocationUpdatedListener
 
         SmartLocation smartLocation = new SmartLocation.Builder(this).logging(true).build();
 
-        smartLocation.location(provider).start(this);
+        smartLocation.location(provider).config(LocationParams.NAVIGATION).start(this);
 
     }
 
