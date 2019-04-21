@@ -30,6 +30,8 @@ import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesProvider;
 
+import android.media.audiofx.EnvironmentalReverb;
+
 public class main extends AppCompatActivity implements OnLocationUpdatedListener {
 
     private LocationGooglePlayServicesProvider provider;
@@ -106,6 +108,33 @@ public class main extends AppCompatActivity implements OnLocationUpdatedListener
     @Override
     public void onLocationUpdated(Location location) {
         showLocation(location);
+        distort();
     }
 
+    EnvironmentalReverb reverb = new EnvironmentalReverb(1,0);
+    int increment=1;
+    double desiredspeed = 20; // just test value
+    public void distort(){
+        Location start = path.get(path.size()-2);
+        Location end = path.get(path.size()-1);
+        SpeedCalc sc = new SpeedCalc(start, end, end.getTime()-start.getTime());
+        if(desiredspeed/Math.abs(sc.getSpeed()-desiredspeed) > .05){
+            reverb(increment);
+            increment++;
+        }
+        else{
+            reverb(increment);
+            increment--;
+        }
+    }
+
+    public void reverb(int c){
+        int max = 2000;
+        reverb.setDiffusion((short)1000);
+        reverb.setReverbLevel((short)(1000 + c*100));
+        reverb.setDecayTime(10000);
+        reverb.setReverbDelay(100);
+        reverb.setDensity((short) 1000);
+        reverb.setEnabled(true);
+    }
 }
